@@ -1,0 +1,45 @@
+<!--
+<div class="login-container">
+    <form (ngSubmit)="login()">
+        <input type="text" placeholder="User Name" [(ngModel)]="username" (input)="isInvalid = false" required>
+        <input type="submit" value="Login">
+    </form>
+</div>
+-->
+
+
+
+<div class="login-container">
+    <h2>Database DevOps Platform</h2>
+    <div *ngIf = "AuthTypeAndData?.AuthenticationMethod != 'oidc'" class="flex login-types-container">
+        <i class="fa fa-check dbmaestro-type" *ngIf="isDbMaestro"></i>
+        <input class="loginType" type="button" value="DBmaestro Account" (click)="loginTypeChange(true)"
+            [ngClass]="{ 'unClicked': !isDbMaestro, 'clicked': isDbMaestro }">
+        <i class="fa fa-check domain-type" *ngIf="!isDbMaestro"></i>
+        <input class="loginType" type="button" value="Domain Login" (click)="loginTypeChange(false)"
+            [ngClass]="{ 'clicked': !isDbMaestro, 'unClicked': isDbMaestro }">
+    </div>
+    <div *ngIf = "AuthTypeAndData?.AuthenticationMethod == 'oidc'" class="flex login-types-container">
+        <input class="loginType oidc-button" type="button" value="OIDC Login" 
+            [ngClass]="{ 'unClicked': !isDbMaestro, 'clicked': isDbMaestro }">
+    </div>
+    <div *ngIf = "AuthTypeAndData?.AuthenticationMethod != 'oidc'">
+        <input type="text" placeholder="User Name" [(ngModel)]="username" (change)="isInvalid = false" required
+        onkeydown = "if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+    </div>
+    <div *ngIf = "AuthTypeAndData?.AuthenticationMethod == 'oidc'" class="div-oidc"></div>
+    <div *ngIf = "AuthTypeAndData?.AuthenticationMethod != 'oidc'">
+        <input type="password" placeholder="Password" [(ngModel)]="password" (change)="isInvalid = false" required
+        onkeydown = "if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+    </div>
+    <div>
+        <mat-checkbox *ngIf = "AuthTypeAndData?.AuthenticationMethod != 'oidc'" class="col-md-8" [(ngModel)]="rememberMe" aria-label="script">Stay Logged In</mat-checkbox>
+        <div [ngClass]="{ 'col-md-4' : AuthTypeAndData?.AuthenticationMethod != 'oidc', 'oidc-replace': AuthTypeAndData?.AuthenticationMethod == 'oidc'}">
+            <a href="#" class="load-license" (click)="navigateToLicenseUpload($event)">Load License</a>
+        </div>
+    </div>
+    <div *ngIf = "AuthTypeAndData?.AuthenticationMethod != 'oidc'" class="error-msg" [ngClass]="{ 'show' : isInvalid }">{{ "INVALID_LOGIN" | mytranslate | async }}</div>
+    <div>
+        <input id="btnSearch" type="submit" value="Login" (click)="login()" />
+    </div>
+</div>
