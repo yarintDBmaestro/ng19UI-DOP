@@ -7,7 +7,10 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { enumsReducer } from '../store/reducers/enums.reducer';
 import { securityReducer } from '../store/reducers/security.reducer';
+import { projectReducer } from '../store/reducers/project.reducer';
 import { SecurityEffects } from '../store/effects/security.effects';
+import { EnumsEffects } from '../store/effects/enums.effects';
+import { ProjectEffects } from '../store/effects/project.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,8 +19,9 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideStore({
       enums: enumsReducer, 
-      security: securityReducer
+      security: securityReducer,
+      project: projectReducer
     }),
-    provideEffects([SecurityEffects])
+    provideEffects([SecurityEffects, EnumsEffects, ProjectEffects])
   ]
 };

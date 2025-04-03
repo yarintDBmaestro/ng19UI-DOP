@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { securityActions } from '../reducers/security.reducer';
+import { securityActions } from 'store/reducers/security.reducer';
 
 // Authentication actions
 export const login = createAction(

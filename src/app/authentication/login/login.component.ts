@@ -3,12 +3,12 @@ import { Store } from '@ngrx/store'; // ✅ Update Store
 import { Router } from '@angular/router'; // ✅ Replace `$state`
 import { Observable } from 'rxjs'; // ✅ Use RxJS Observables
 import { TranslateService } from '@ngx-translate/core'; // ✅ Replace TranslatePipe with TranslateService
-//import { enumsActions } from 'src/store/reducers/enums.reducer';
-import { securityActions } from '../../../store/reducers/security.reducer';
-import { SessionService, DialogManagerService, AuthService } from '../../../services';
-import { DbTypeService } from '../../../services/dbTypeService';
-import { licenseActions } from '../../../store/reducers/license.reducer';
-import { AppState } from '../../../store/app.state'; // ✅ Define a proper state interface
+import { securityActions } from 'store/reducers/security.reducer';
+import { SessionService, DialogManagerService, AuthService } from 'services';
+import { DbTypeService } from 'services/dbTypeService';
+import { licenseActions } from 'store/reducers/license.reducer';
+import { AppState } from 'store/app.state'; // ✅ Define a proper state interface
+import { getAuthenticationMethod } from 'store/actions/security.actions';
 
 @Component({
   selector: 'app-login',
@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.isDbMaestro = !(localStorage.getItem('loginType') === 'domain-type');
 
-    this.store.dispatch(securityActions.AUTHENTICATION_METHOD());
+    this.store.dispatch(getAuthenticationMethod());
     this.store.select((state) => state.security.authMethod).subscribe((response) => {
       this.AuthTypeAndData = response;
       localStorage.setItem('AuthType', JSON.stringify(this.AuthTypeAndData?.AuthenticationMethod));

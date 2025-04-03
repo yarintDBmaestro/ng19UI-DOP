@@ -6,7 +6,7 @@ import {
   getOidcConfigurationsSuccess, getOidcConfigurationsFailure,
   setOidcConfigurationsSuccess, setOidcConfigurationsFailure,
   logoutSuccess, logoutFailure
-} from '../actions/security.actions';
+} from 'store/actions/security.actions';
 
 //reducer files defines the reducers that can be performed on the state
 

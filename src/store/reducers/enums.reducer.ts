@@ -1,27 +1,96 @@
-import { createReducer, createAction, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
+import {
+  loadDeployModeTypesSuccess,
+  loadSourceControlPathTypesSuccess,
+  loadConflictResolveActionTypesSuccess,
+  loadContinuousIntegrationTypesSuccess,
+  loadDuplicationActionTypesSuccess,
+  loadFileVersionControlTypesSuccess,
+  loadDbTypesSuccess,
+  loadEnumsFailure
+} from '../actions/enums.actions';
 
+export interface EnumsState {
+  deployModeTypes: any[];
+  sourceControlPathTypes: any[];
+  conflictResolveActionTypes: any[];
+  continuousIntegrationTypes: any[];
+  duplicationActionTypes: any[];
+  fileVersionControlTypes: any[];
+  dbTypes: any[];
+  error: any;
+  loading: boolean;
+}
 
-export const enumsActions = {
-  CONFLICT_RESOLVE_ACTION_TYPES: 'CONFLICT_RESOLVE_ACTION_TYPES',
-  CONTINUOUS_INTEGRATION_TYPES: 'CONTINUOUS_INTEGRATION_TYPES',
-  DUPLICATION_ACTION_TYPES: 'DUPLICATION_ACTION_TYPES',
-  FILE_VERSION_CONTROL_TYPES: 'FILE_VERSION_CONTROL_TYPES',
-  DEPLOY_MODE_TYPES: 'DEPLOY_MODE_TYPES',
-  SET_ENUMS: 'SET_ENUMS',
-  DB_TYPES: 'DB_TYPES',
-  SOURCE_CONTROL_PATH_TYPES: 'SOURCE_CONTROL_PATH_TYPES'
-};
-// Define actions
-export const setEnums = createAction('[Enums] Set', (payload: any) => ({ payload }));
-
-// Define initial state
-const initialState = {
+const initialState: EnumsState = {
+  deployModeTypes: [],
+  sourceControlPathTypes: [],
+  conflictResolveActionTypes: [],
+  continuousIntegrationTypes: [],
+  duplicationActionTypes: [],
+  fileVersionControlTypes: [],
   dbTypes: [],
-  conflictResolveActions: []
+  error: null,
+  loading: false
 };
 
-// Define reducer
 export const enumsReducer = createReducer(
   initialState,
-  on(setEnums, (state, { payload }) => ({ ...state, ...payload }))
+  
+  // Success actions
+  on(loadDeployModeTypesSuccess, (state, { deployModeTypes }) => ({
+    ...state,
+    deployModeTypes,
+    error: null,
+    loading: false
+  })),
+  
+  on(loadSourceControlPathTypesSuccess, (state, { sourceControlPathTypes }) => ({
+    ...state,
+    sourceControlPathTypes,
+    error: null,
+    loading: false
+  })),
+  
+  on(loadConflictResolveActionTypesSuccess, (state, { conflictResolveActionTypes }) => ({
+    ...state,
+    conflictResolveActionTypes,
+    error: null,
+    loading: false
+  })),
+  
+  on(loadContinuousIntegrationTypesSuccess, (state, { continuousIntegrationTypes }) => ({
+    ...state,
+    continuousIntegrationTypes,
+    error: null,
+    loading: false
+  })),
+  
+  on(loadDuplicationActionTypesSuccess, (state, { duplicationActionTypes }) => ({
+    ...state,
+    duplicationActionTypes,
+    error: null,
+    loading: false
+  })),
+  
+  on(loadFileVersionControlTypesSuccess, (state, { fileVersionControlTypes }) => ({
+    ...state,
+    fileVersionControlTypes,
+    error: null,
+    loading: false
+  })),
+  
+  on(loadDbTypesSuccess, (state, { dbTypes }) => ({
+    ...state,
+    dbTypes,
+    error: null,
+    loading: false
+  })),
+  
+  // Failure action
+  on(loadEnumsFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false
+  }))
 );

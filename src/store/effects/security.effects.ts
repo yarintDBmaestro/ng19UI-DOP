@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import { map, mergeMap, catchError, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { api } from '../../constants/api';
+import { api } from 'constants/api';
 import { 
   login, loginSuccess, loginFailure,
   refreshToken, refreshTokenSuccess, refreshTokenFailure,
@@ -34,7 +34,7 @@ export class SecurityEffects {
             'Content-Type': 'application/x-www-form-urlencoded'
           })
         }).pipe(
-          map(response => loginSuccess({ token: response['access_token'] })),
+          map((response: any) => loginSuccess({ token: response.data.access_token })),
           catchError(error => of(loginFailure({ error })))
         );
       })
@@ -46,8 +46,8 @@ export class SecurityEffects {
     this.actions$.pipe(
       ofType(refreshToken),
       mergeMap((action) => 
-        this.http.post(`${this.restServiceUrl}Security/RefreshToken`, action).pipe(
-          map(response => refreshTokenSuccess({ token: response['access_token'] })),
+        this.http.post<{access_token: string}>(`${this.restServiceUrl}Security/RefreshToken`, action).pipe(
+          map(response => refreshTokenSuccess({ token: response.access_token })), // was response['access_token']
           catchError(error => of(refreshTokenFailure({ error })))
         )
       )
@@ -59,8 +59,9 @@ export class SecurityEffects {
     this.actions$.pipe(
       ofType(getAuthenticationMethod),
       mergeMap(() => 
-        this.http.get(`${this.restServiceUrl}Security/AuthenticationMethod`).pipe(
-          map(response => getAuthenticationMethodSuccess({ method: response['method'] })),
+        this.http.get<any>(`${this.restServiceUrl}Security/AuthenticationMethod`).pipe(
+          /* edited */
+          map(response => getAuthenticationMethodSuccess({ method: response.data.authenticationMethod })),
           catchError(error => of(getAuthenticationMethodFailure({ error })))
         )
       )
